@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='usuarios.css') }}">
+</head>
+
+<body>
+
+    <!-- LISTA DE USUÁRIOS -->
+    <div class="container">
+        <h1>Usuários cadastrados</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Idade</th>
+                    <th>CPF</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr id="linha-{{ usuario.id }}">
+                    <td>{{ usuario.nome }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.idade }}</td>
+                    <td>{{ usuario.cpf }}</td>
+                    <td>
+
+                        <!-- EXCLUIR -->
+                        <button title="Excluir usuário"
+                            style="cursor:pointer"
+                            onclick="excluirUsuario('{{ usuario.id }}')">
+                            🗑
+                        </button>
+
+                        <!-- EDITAR -->
+                        <button title="Editar usuário"
+                            style="cursor:pointer"
+                            data-usuario='{{ usuario | tojson }}'
+                            onclick="preencherFormulario(this)">
+                            ✏️
+                        </button>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <!-- FORMULÁRIO DE ATUALIZAÇÃO -->
+    <div class="container">
+        <h1>Atualização cadastral do usuário</h1>
+
+        <form id="form-atualizar-usuario">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Idade</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- ID oculto -->
+                        <input type="hidden" id="id">
+
+                        <td>
+                            <input type="text" id="nome" required>
+                        </td>
+
+                        <td>
+                            <input type="email" id="email" required>
+                        </td>
+
+                        <td>
+                            <input type="number" id="idade" required>
+                        </td>
+
+                        <td>
+                            <button type="submit" class="button-update">
+                                Atualizar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='usuarios.js') }}"></script>
+
+</body>
+</html>

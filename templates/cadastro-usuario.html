@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Cadastrar Usuário</h1>
+
+    <!-- FORMULÁRIO -->
+    <form action="{{ url_for('usuario.cadastro_post') }}" method="POST">
+
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+
+        <label>CPF:</label>
+        <input type="text" name="cpf" maxlength="11" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Idade:</label>
+        <input type="number" name="idade" required>
+
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+
+        <label>Perfil:</label>
+        <input type="text" name="perfil" placeholder="" required>
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <p>
+        Já tem conta?
+        <a href="{{ url_for('usuario.login_get') }}">Fazer login</a>
+    </p>
+
+</div>
+
+</body>
+</html>
