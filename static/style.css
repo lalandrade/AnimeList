@@ -183,3 +183,170 @@ body {
     background: #00c983;
     color: #fff;
 }
+/* BOTÃO + */
+.add-anime {
+    width: 140px;
+    height: 140px;
+    background: #1f1f1f;
+    color: white;
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    cursor: pointer;
+}
+.add-anime:hover {
+    background: #727272;
+}
+
+.modal-anime {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-box {
+    position: relative; /* OBRIGATÓRIO pro X aparecer */
+    background: #2b2b2b;
+    border-radius: 20px;
+    width: 800px;
+    max-width: 95%;
+    display: flex;
+    overflow: hidden;
+}
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+
+    background: transparent;
+    border: none;
+
+    font-size: 22px;
+    color: #727272;
+
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.close-modal:hover {
+    color: #ff4d4d;
+}
+
+
+
+/* FECHAR */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* LADO ESQUERDO */
+.modal-left {
+    width: 40%;
+    background: #6b6b6b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: none;
+}
+
+
+.upload-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #6b6b6b;
+    border-radius: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-box input {
+    display: none;
+}
+
+.upload-box span {
+    position: absolute;
+    color: #e0e0e0;
+    text-align: center;
+    font-size: 18px;
+}
+
+#previewCapa {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+
+/* LADO DIREITO */
+.modal-right {
+    width: 60%;
+    padding: 25px;
+    color: white;
+}
+
+.modal-right label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.modal-right input,
+.modal-right textarea,
+.modal-right select {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+    background: #1c1c1c;
+    color: white;
+}
+
+.modal-right textarea {
+    height: 60px;
+    resize: none;
+}
+
+/* BOTÃO SALVAR */
+.save-btn {
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    background: #6bdc3a;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 25px;
+    cursor: pointer;
+}
+.save-btn:hover {
+    background: #89f35c;
+}
+

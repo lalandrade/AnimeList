@@ -50,7 +50,6 @@
                             </a>
                         </li>
 
-                        <!-- MENU ADMIN -->
                         {% if session.get("perfil") == "admin" %}
                         <li>
                             <a href="{{ url_for('usuario.buscar_usuarios') }}">
@@ -58,7 +57,6 @@
                             </a>
                         </li>
                         {% endif %}
-
                     </ul>
                 </nav>
             </div>
@@ -81,6 +79,7 @@
         <main class="main-content">
             <section class="dashboard-container">
 
+                <!-- TOPO -->
                 <div class="top-area">
                     <h2>
                         {% if session.get("perfil") == "admin" %}
@@ -92,38 +91,71 @@
                         {% endif %}
                     </h2>
 
-
                     <input type="text" placeholder="Procure seu anime favorito">
                 </div>
 
-                <div class="anime-cards">
-                    <div class="card">
-                        <img src="{{ url_for('static', filename='demon-slayer.jpg') }}">
-                        <h4>Demon Slayer</h4>
-                        <p>EP 12</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ url_for('static', filename='naruto.jpg') }}">
-                        <h4>Naruto</h4>
-                        <p>EP 220</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ url_for('static', filename='one-piece.jpg') }}">
-                        <h4>One Piece</h4>
-                        <p>EP 1100</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="{{ url_for('static', filename='attack-on-titan.jpg') }}">
-                        <h4>Attack on Titan</h4>
-                        <p>Final</p>
-                    </div>
+                <!-- CARDS DINÂMICOS -->
+                <div class="anime-cards" id="anime-cards">
+                    <!-- Animes carregados via JS -->
                 </div>
+<!-- BOTÃO + -->
+<div class="add-anime" onclick="abrirModalAnime()">+</div>
+
+<!-- MODAL -->
+<div class="modal-anime" id="modalAnime">
+    
+    <div class="modal-box">
+
+        <!-- FECHAR -->
+        <button class="close-modal" onclick="fecharModalAnime()">✕</button>
+
+        <!-- LADO ESQUERDO -->
+       <div class="modal-left">
+    <label for="inputCapa" class="upload-box">
+        <input type="file" id="inputCapa" accept="image/*">
+
+        <img id="previewCapa" />
+
+        <span id="textoUpload">
+            Carregue a capa<br>do anime
+        </span>
+        
+    </label>
+</div>
+
+
+
+        <!-- LADO DIREITO -->
+        <div class="modal-right">
+            <label>Nome:</label>
+            <input type="text" placeholder="Nome do anime">
+
+            <label>Descrição:</label>
+            <textarea placeholder="Descrição do anime"></textarea>
+
+            <label>Status:</label>
+            <select>
+                <option>Assistindo</option>
+                <option>Favoritos</option>
+                <option>Concluídos</option>
+            </select>
+
+            <label>Episódios assistidos:</label>
+            <input type="number" placeholder="0">
+
+            <label>Total de episódios:</label>
+            <input type="number" placeholder="0">
+
+            <button class="save-btn">Salvar</button>
+        </div>
+
+    </div>
+</div>
 
             </section>
+            
         </main>
+        
 
     </div>
 
@@ -131,7 +163,8 @@
         AnimeList — 2025 | Todos os direitos reservados
     </footer>
 
-    <script src="{{ url_for('static', filename='usuarios.js') }}"></script>
+    <!-- JS DE ANIMES -->
+    <script src="{{ url_for('static', filename='animes.js') }}"></script>
 </body>
 
 </html>
