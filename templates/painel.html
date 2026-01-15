@@ -98,64 +98,66 @@
                 <div class="anime-cards" id="anime-cards">
                     <!-- Animes carregados via JS -->
                 </div>
-<!-- BOTÃO + -->
-<div class="add-anime" onclick="abrirModalAnime()">+</div>
+                <!-- BOTÃO + -->
+                <div class="add-anime" onclick="abrirModalAnime()">+</div>
 
-<!-- MODAL -->
-<div class="modal-anime" id="modalAnime">
-    
-    <div class="modal-box">
+                <!-- MODAL -->
+                <div class="modal-anime" id="modalAnime">
+                    <div class="modal-box">
 
-        <!-- FECHAR -->
-        <button class="close-modal" onclick="fecharModalAnime()">✕</button>
+                        <!-- BOTÃO VOLTAR / FECHAR -->
+                        <button type="button" class="close-modal" onclick="fecharModalAnime()">✕</button>
 
-        <!-- LADO ESQUERDO -->
-       <div class="modal-left">
-    <label for="inputCapa" class="upload-box">
-        <input type="file" id="inputCapa" accept="image/*">
+                        <form id="formAnime">
 
-        <img id="previewCapa" />
+                            <!-- LADO ESQUERDO -->
+                            <div class="modal-left">
+                                <label class="upload-box">
+                                    <input type="file" id="inputCapa" accept="image/*">
 
-        <span id="textoUpload">
-            Carregue a capa<br>do anime
-        </span>
-        
-    </label>
-</div>
+                                    <img id="previewCapa" style="display:none;" />
 
+                                    <span id="textoUpload">
+                                        Carregue a capa<br>do anime
+                                    </span>
+                                </label>
 
+                            </div>
 
-        <!-- LADO DIREITO -->
-        <div class="modal-right">
-            <label>Nome:</label>
-            <input type="text" placeholder="Nome do anime">
+                            <!-- LADO DIREITO -->
+                            <div class="modal-right">
+                                <label>Nome:</label>
+                                <input type="text" id="nome" placeholder="Nome do anime" required>
 
-            <label>Descrição:</label>
-            <textarea placeholder="Descrição do anime"></textarea>
+                                <label>Descrição:</label>
+                                <textarea id="descricao" placeholder="Descrição do anime"></textarea>
 
-            <label>Status:</label>
-            <select>
-                <option>Assistindo</option>
-                <option>Favoritos</option>
-                <option>Concluídos</option>
-            </select>
+                                <label>Status:</label>
+                                <select id="status">
+                                    <option value="assistindo">Assistindo</option>
+                                    <option value="favoritos">Favoritos</option>
+                                    <option value="concluidos">Concluídos</option>
+                                </select>
 
-            <label>Episódios assistidos:</label>
-            <input type="number" placeholder="0">
+                                <label>Episódios assistidos:</label>
+                                <input type="number" id="eps_assistidos" placeholder="0">
 
-            <label>Total de episódios:</label>
-            <input type="number" placeholder="0">
+                                <label>Total de episódios:</label>
+                                <input type="number" id="total_eps" placeholder="0">
 
-            <button class="save-btn">Salvar</button>
-        </div>
+                                <button type="submit" class="save-btn">Salvar</button>
+                            </div>
 
-    </div>
-</div>
+                        </form>
+
+                    </div>
+                </div>
+
 
             </section>
-            
+
         </main>
-        
+
 
     </div>
 
