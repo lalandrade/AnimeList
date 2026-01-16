@@ -190,11 +190,14 @@ body {
     position: relative;
     background: #2b2b2b;
     border-radius: 20px;
-    width: 800px;
+    width: 780px;
     max-width: 95%;
+    max-height: 85vh;
+    height: auto; /* 🔥 altura fixa correta */
     display: flex;
     overflow: hidden;
 }
+
 
 /* BOTÃO X */
 .close-modal {
@@ -220,16 +223,26 @@ body {
    LADO ESQUERDO (CAPA)
 ========================= */
 .modal-left {
-    width: 40%;
+    width: 35%;
     background: #1c1c1c;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px; /* 🔥 espaço interno */
 }
 
+.modal-right {
+    width: 65%;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
 .upload-box {
-    width: 220px;
-    height: 300px;
+    width: 290px;
+    height: 370px;
     border: 2px dashed #3b82f6;
     border-radius: 12px;
     display: flex;
@@ -260,10 +273,15 @@ body {
    LADO DIREITO
 ========================= */
 .modal-right {
-    width: 60%;
+    width: 65%;
     padding: 25px;
     color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
 }
+
 
 .modal-right label {
     font-weight: bold;
@@ -276,7 +294,8 @@ body {
 .modal-right select {
     width: 100%;
     margin-top: 5px;
-    padding: 8px;
+    padding: 7px;
+    font-size: 14px;
     border-radius: 12px;
     border: none;
     background: #1c1c1c;
@@ -284,8 +303,9 @@ body {
 }
 
 .modal-right textarea {
-    height: 60px;
+    height: 80px;
     resize: none;
+    overflow-y: auto;
 }
 
 /* =========================
@@ -299,6 +319,8 @@ body {
     border-radius: 12px;
     font-size: 16px;
     cursor: pointer;
+    align-self: flex-end;
+    margin-top: auto;
 }
 .save-btn:hover {
     background: #89f35c;
@@ -330,4 +352,57 @@ body {
 .card-actions button:hover {
     opacity: 0.85;
 }
+#formAnime {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.status-assistindo {
+    background: #1e90ff;
+    color: white;
+}
+
+.status-concluido {
+    background: #2ecc71;
+    color: white;
+}
+
+.status-favorito {
+    background: #f1c40f;
+    color: #000;
+}
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin: 6px 0;
+    font-weight: 600;
+}
+
+.status-badge.assistindo {
+    background: #3b82f6;
+    color: white;
+}
+
+.status-badge.concluidos {
+    background: #22c55e;
+    color: white;
+}
+
+.status-badge.favoritos {
+    background: #facc15;
+    color: #000;
+}
+
+
+
 

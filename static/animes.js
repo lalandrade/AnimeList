@@ -12,23 +12,29 @@ document.addEventListener("DOMContentLoaded", () => {
    LISTAR
 ========================= */
 function carregarAnimes() {
-    fetch("/animes")
+    fetch("/animes", { credentials: "include" })
         .then(res => res.json())
         .then(animes => {
             const container = document.getElementById("anime-cards");
             container.innerHTML = "";
 
             if (animes.length === 0) {
-                container.innerHTML = "<p>Nenhum anime cadastrado </p>";
+                container.innerHTML = "<p>Nenhum anime cadastrado</p>";
                 return;
             }
 
             animes.forEach(anime => {
+
                 const card = document.createElement("div");
                 card.className = "card";
 
                 card.innerHTML = `
-                    <img src="${anime.imagem || '/static/naruto.jpg'}">
+                    <img src="${anime.imagem}">
+
+                    <span class="status-badge ${anime.status}">
+                        ${formatarStatus(anime.status)}
+                    </span>
+
                     <h4>${anime.nome}</h4>
                     <p>EP ${anime.eps_assistidos} / ${anime.total_eps}</p>
 
@@ -49,12 +55,14 @@ function carregarAnimes() {
 function salvarAnime(e) {
     e.preventDefault();
 
+    const statusSelect = document.getElementById("status");
+
     const dados = {
-        nome: nome.value,
-        descricao: descricao.value,
-        status: status.value,
-        eps_assistidos: eps_assistidos.value || 0,
-        total_eps: total_eps.value || 0,
+        nome: document.getElementById("nome").value,
+        descricao: document.getElementById("descricao").value,
+        status: statusSelect.value,
+        eps_assistidos: document.getElementById("eps_assistidos").value || 0,
+        total_eps: document.getElementById("total_eps").value || 0,
         imagem: previewCapa.src || null
     };
 
@@ -65,23 +73,13 @@ function salvarAnime(e) {
     const method = id ? "PUT" : "POST";
 
     fetch(url, {
-        method: method,
-        headers: {
-            "Content-Type": "application/json"
-        },
+        method,
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(dados)
     })
     .then(res => {
-        if (res.status === 401) {
-            alert("⚠️ Você precisa fazer login para adicionar anime");
-            throw new Error("Não autenticado");
-        }
-
-        if (!res.ok) {
-            throw new Error("Erro ao salvar anime");
-        }
-
+        if (!res.ok) throw new Error();
         return res.json();
     })
     .then(() => {
@@ -89,13 +87,8 @@ function salvarAnime(e) {
         fecharModalAnime();
         carregarAnimes();
     })
-    .catch(err => {
-        if (err.message !== "Não autenticado") {
-            alert("❌ Erro ao salvar anime");
-        }
-    });
+    .catch(() => alert("❌ Erro ao salvar anime"));
 }
-
 
 /* =========================
    EDITAR
@@ -104,12 +97,14 @@ function editarAnime(id) {
     fetch(`/animes/${id}`)
         .then(res => res.json())
         .then(anime => {
-            nome.value = anime.nome;
-            descricao.value = anime.descricao;
-            status.value = anime.status;
-            eps_assistidos.value = anime.eps_assistidos;
-            total_eps.value = anime.total_eps;
 
+            document.getElementById("nome").value = anime.nome;
+            document.getElementById("descricao").value = anime.descricao;
+            document.getElementById("status").value = anime.status;
+            document.getElementById("eps_assistidos").value = anime.eps_assistidos;
+            document.getElementById("total_eps").value = anime.total_eps;
+
+            // 🔥 MOSTRAR IMAGEM NO EDITAR
             if (anime.imagem) {
                 previewCapa.src = anime.imagem;
                 previewCapa.style.display = "block";
@@ -119,6 +114,13 @@ function editarAnime(id) {
             document.getElementById("formAnime").dataset.id = id;
             abrirModalAnime();
         });
+}
+
+function formatarStatus(status) {
+    if (status === "assistindo") return "📺 Assistindo";
+    if (status === "concluidos") return "✅ Concluído";
+    if (status === "favoritos") return "⭐ Favorito";
+    return "";
 }
 
 /* =========================
@@ -141,8 +143,12 @@ function abrirModalAnime() {
 function fecharModalAnime() {
     modalAnime.style.display = "none";
     formAnime.reset();
+
+    previewCapa.src = "";
     previewCapa.style.display = "none";
     textoUpload.style.display = "block";
+
+    delete formAnime.dataset.id;
 }
 
 /* =========================
@@ -152,10 +158,9 @@ function previewImagem() {
     const file = this.files[0];
     if (!file) return;
 
-    // 🔴 LIMITE DE 1MB
     if (file.size > 1024 * 1024) {
         alert("❌ Escolha uma imagem menor que 1MB");
-        this.value = ""; // limpa o input
+        this.value = "";
         return;
     }
 
@@ -167,4 +172,3 @@ function previewImagem() {
     };
     reader.readAsDataURL(file);
 }
-

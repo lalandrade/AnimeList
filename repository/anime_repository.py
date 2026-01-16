@@ -3,13 +3,23 @@ from db import get_connection
 class AnimeRepository:
 
     @staticmethod
-    def listar(usuario_id):
+    def listar(usuario_id, status=None):
         conn = get_connection()
         cur = conn.cursor(dictionary=True)
-        cur.execute(
-            "SELECT * FROM animes WHERE usuario_id=%s ORDER BY id DESC",
-            (usuario_id,)
-        )
+
+        if status:
+            cur.execute("""
+                SELECT * FROM animes
+                WHERE usuario_id=%s AND status=%s
+                ORDER BY id DESC
+            """, (usuario_id, status))
+        else:
+            cur.execute("""
+                SELECT * FROM animes
+                WHERE usuario_id=%s
+                ORDER BY id DESC
+            """, (usuario_id,))
+
         data = cur.fetchall()
         conn.close()
         return data
@@ -19,17 +29,17 @@ class AnimeRepository:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO animes 
+            INSERT INTO animes
             (usuario_id, nome, descricao, status, eps_assistidos, total_eps, imagem)
             VALUES (%s,%s,%s,%s,%s,%s,%s)
         """, (
-            dados["usuario_id"],
-            dados["nome"],
-            dados["descricao"],
-            dados["status"],
-            dados["eps_assistidos"],
-            dados["total_eps"],
-            dados["imagem"]
+            dados.get("usuario_id"),
+            dados.get("nome"),
+            dados.get("descricao"),
+            dados.get("status", "assistindo"),
+            dados.get("eps_assistidos", 0),
+            dados.get("total_eps", 0),
+            dados.get("imagem")
         ))
         conn.commit()
         conn.close()
@@ -57,12 +67,12 @@ class AnimeRepository:
                 imagem=%s
             WHERE id=%s
         """, (
-            dados["nome"],
-            dados["descricao"],
-            dados["status"],
-            dados["eps_assistidos"],
-            dados["total_eps"],
-            dados["imagem"],
+            dados.get("nome"),
+            dados.get("descricao"),
+            dados.get("status", "assistindo"),
+            dados.get("eps_assistidos", 0),
+            dados.get("total_eps", 0),
+            dados.get("imagem"),
             id
         ))
         conn.commit()
