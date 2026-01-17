@@ -27,28 +27,27 @@
                 <nav>
                     <ul>
                         <li>
-                            <a href="{{ url_for('usuario.painel') }}">
-                                <span class="icon">🏠</span> Painel
-                            </a>
-                        </li>
+                            <a href="#" onclick="carregarAnimes(null)">🏠 Painel</a>
 
+                        </li>
                         <li>
-                            <a href="{{ url_for('usuario.assistindo') }}">
+                            <a href="#" onclick="carregarAnimes('assistindo')">
                                 <span class="icon">🎬</span> Assistindo
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url_for('usuario.concluidos') }}">
+                            <a href="#" onclick="carregarAnimes('concluidos')">
                                 <span class="icon">✅</span> Concluídos
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url_for('usuario.favoritos') }}">
+                            <a href="#" onclick="carregarAnimes('favoritos')">
                                 <span class="icon">⭐</span> Favoritos
                             </a>
                         </li>
+
 
                         {% if session.get("perfil") == "admin" %}
                         <li>
@@ -96,12 +95,12 @@
 
                 <!-- CARDS DINÂMICOS -->
                 <div class="anime-cards" id="anime-cards">
-                    
+
                     <div class="anime-cards" id="assistindo-cards"></div>
 
                     <div class="anime-cards" id="concluidos-cards"></div>
 
-                    
+
                     <div class="anime-cards" id="favoritos-cards"></div>
 
                     <!-- Animes carregados via JS -->
