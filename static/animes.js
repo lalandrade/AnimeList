@@ -68,7 +68,7 @@ function salvarAnime(e) {
         status: document.getElementById("status").value,
         eps_assistidos: document.getElementById("eps_assistidos").value || 0,
         total_eps: document.getElementById("total_eps").value || 0,
-        imagem: imagemAtual // 🔥 mantém a imagem antiga se não trocar
+        imagem: imagemAtual
     };
 
     const form = document.getElementById("formAnime");
@@ -84,6 +84,11 @@ function salvarAnime(e) {
         body: JSON.stringify(dados)
     })
     .then(res => {
+        if (res.status === 401) {
+            alert("⚠️ Você precisa estar logado para salvar um anime");
+            window.location.href = "/login";
+            return;
+        }
         if (!res.ok) throw new Error();
         return res.json();
     })
@@ -93,6 +98,7 @@ function salvarAnime(e) {
     })
     .catch(() => alert("❌ Erro ao salvar anime"));
 }
+
 
 /* =========================
    EDITAR
