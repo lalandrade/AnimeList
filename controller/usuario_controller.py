@@ -6,7 +6,10 @@ usuario_bp = Blueprint("usuario", __name__)
 # -------- INÍCIO / PAINEL --------
 @usuario_bp.route("/")
 def painel():
+    if "id_usuario" not in session:
+        return redirect(url_for("usuario.login_get"))
     return render_template("painel.html")
+
 
 
 # -------- LOGIN --------
@@ -22,7 +25,8 @@ def login_post():
 
     usuario = UsuarioService.autenticar(email, senha)
     if not usuario:
-        return "Email ou senha inválidos", 401
+        return render_template("login.html", erro="Email ou senha inválidos")
+
 
     session["id_usuario"] = usuario["id"]
     session["nome"] = usuario["nome"]
@@ -35,7 +39,7 @@ def login_post():
 @usuario_bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("usuario.painel"))
+    return redirect(url_for("usuario.login_get"))
 
 
 # -------- CADASTRO --------
@@ -112,21 +116,25 @@ def excluir_usuario(id):
     return jsonify({"erro": "Usuário não encontrado."}), 404
 
 
-@usuario_bp.route("/usuarios/", methods=["PUT"])
-def atualizar_usuario():
+@usuario_bp.route("/usuarios/<id>", methods=["PUT"])
+def atualizar_usuario(id):
     if "id_usuario" not in session:
         return "Acesso negado. Faça login.", 401
 
-    usuario_edit = request.get_json()
-    if UsuarioService.atualizar(usuario_edit):
+    if session["perfil"] != "admin" and session["id_usuario"] != id:
+        return "Acesso negado.", 403
+
+    dados = request.get_json()
+    dados["id"] = id
+
+    if UsuarioService.atualizar(dados):
         return jsonify({"mensagem": "Usuário atualizado com sucesso"}), 200
 
-    return jsonify({"erro": "Não foi possível salvar as modificações"}), 404
-
-
+    return jsonify({"erro": "Erro ao atualizar"}), 400
 @usuario_bp.route("/admin")
 def admin_area():
     if session.get("perfil") != "admin":
-        return redirect(url_for("usuario.painel"))
+        return "Acesso negado", 403
 
     return "Área do administrador"
+

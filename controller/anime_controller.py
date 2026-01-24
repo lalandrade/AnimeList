@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from repository.anime_repository import AnimeRepository
+from service.anime_service import AnimeService
 
 anime_bp = Blueprint("anime", __name__)
 
@@ -14,7 +14,7 @@ def listar_animes():
     if not usuario_id:
         return jsonify([])
 
-    return jsonify(AnimeRepository.listar(usuario_id, status))
+    return jsonify(AnimeService.listar(usuario_id, status))
 
 
 # =========================
@@ -27,10 +27,10 @@ def criar_anime():
     if not usuario_id:
         return jsonify({"erro": "Login obrigatório"}), 401
 
-    dados = request.get_json()
+    dados = request.get_json() or {}
     dados["usuario_id"] = usuario_id
 
-    AnimeRepository.adicionar(dados)
+    AnimeService.criar(dados)
     return jsonify({"mensagem": "Anime criado"}), 201
 
 
@@ -39,7 +39,12 @@ def criar_anime():
 # =========================
 @anime_bp.route("/animes/<int:id>", methods=["GET"])
 def buscar_anime(id):
-    return jsonify(AnimeRepository.buscar_por_id(id))
+    anime = AnimeService.buscar_por_id(id)
+
+    if not anime:
+        return jsonify({"erro": "Anime não encontrado"}), 404
+
+    return jsonify(anime)
 
 
 # =========================
@@ -48,11 +53,12 @@ def buscar_anime(id):
 @anime_bp.route("/animes/<int:id>", methods=["PUT"])
 def atualizar_anime(id):
     usuario_id = session.get("id_usuario")
+
     if not usuario_id:
         return jsonify({"erro": "Login obrigatório"}), 401
 
     dados = request.get_json() or {}
-    AnimeRepository.atualizar(id, dados)
+    AnimeService.atualizar(id, dados)
 
     return jsonify({"mensagem": "Anime atualizado"})
 
@@ -63,8 +69,9 @@ def atualizar_anime(id):
 @anime_bp.route("/animes/<int:id>", methods=["DELETE"])
 def deletar_anime(id):
     usuario_id = session.get("id_usuario")
+
     if not usuario_id:
         return jsonify({"erro": "Login obrigatório"}), 401
 
-    AnimeRepository.deletar(id)
+    AnimeService.deletar(id)
     return jsonify({"mensagem": "Anime removido"})

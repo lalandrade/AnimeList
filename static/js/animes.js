@@ -35,21 +35,29 @@ function carregarAnimes(status = null) {
                 const card = document.createElement("div");
                 card.className = "card";
 
-                card.innerHTML = `
-                    ${anime.imagem ? `<img src="${anime.imagem}">` : ""}
+               card.innerHTML = `
+    ${anime.imagem ? `<img src="${anime.imagem}">` : ""}
 
-                    <span class="status-badge ${anime.status}">
-                        ${formatarStatus(anime.status)}
-                    </span>
+    <span class="status-badge ${anime.status}">
+        ${formatarStatus(anime.status)}
+    </span>
 
-                    <h4>${anime.nome}</h4>
-                    <p>EP ${anime.eps_assistidos} / ${anime.total_eps}</p>
+    <h4>${anime.nome}</h4>
 
-                    <div class="card-actions">
-                        <button onclick="editarAnime(${anime.id})">✏️</button>
-                        <button onclick="removerAnime(${anime.id})">🗑️</button>
-                    </div>
-                `;
+    <p class="descricao">
+        ${anime.descricao ? anime.descricao : "Sem descrição"}
+    </p>
+
+    <p class="episodios">
+        EP ${anime.eps_assistidos} / ${anime.total_eps}
+    </p>
+
+    <div class="card-actions">
+        <button onclick="editarAnime(${anime.id})">✏️</button>
+        <button onclick="removerAnime(${anime.id})">🗑️</button>
+    </div>
+`;
+
                 container.appendChild(card);
             });
         });
@@ -147,6 +155,15 @@ function removerAnime(id) {
     fetch(`/animes/${id}`, { method: "DELETE" })
         .then(() => carregarAnimes());
 }
+
+function filtrarAnimes(texto) {
+    texto = texto.toLowerCase();
+    document.querySelectorAll(".card").forEach(card => {
+        const nome = card.querySelector("h4").innerText.toLowerCase();
+        card.style.display = nome.includes(texto) ? "block" : "none";
+    });
+}
+
 
 /* =========================
    MODAL

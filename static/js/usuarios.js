@@ -23,14 +23,16 @@ function excluirUsuario(id) {
 document.getElementById("form-atualizar-usuario").addEventListener("submit", function (e) {
     e.preventDefault();
 
+    const id = document.getElementById("id").value; // 🔥 AQUI
+
     const dados = {
-        id: document.getElementById("id").value,
+        id: id,
         nome: document.getElementById("nome").value,
         email: document.getElementById("email").value,
         idade: document.getElementById("idade").value
     };
 
-    fetch("/usuarios/", {
+    fetch(`/usuarios/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -46,3 +48,5 @@ document.getElementById("form-atualizar-usuario").addEventListener("submit", fun
         alert("Erro ao atualizar usuário");
     });
 });
+
+

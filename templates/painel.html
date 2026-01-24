@@ -6,177 +6,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnimeList</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- CSS -->
+     
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <div class="layout">
+<div class="layout">
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div>
 
-                <!-- LOGO -->
-                <div class="logo">
-                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo AnimeList">
-                    <p>AnimeList</p>
-                </div>
-
-                <!-- MENU -->
-                <nav>
-                    <ul>
-                        <li>
-
-                            <a href="#" onclick="carregarAnimes(null)">
-                                <span class="icon">🏠</span> Painel
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#" onclick="carregarAnimes('assistindo')">
-                                <span class="icon">🎬</span> Assistindo
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" onclick="carregarAnimes('concluidos')">
-                                <span class="icon">✅</span> Concluídos
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" onclick="carregarAnimes('favoritos')">
-                                <span class="icon">⭐</span> Favoritos
-                            </a>
-                        </li>
-
-
-                        {% if session.get("perfil") == "admin" %}
-                        <li>
-                            <a href="{{ url_for('usuario.buscar_usuarios') }}">
-                                <span class="icon">👤</span> Usuários
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </nav>
+            <!-- LOGO -->
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo AnimeList">
+                <p>AnimeList</p>
             </div>
 
-            <!-- LOGIN / LOGOUT -->
-            <div class="profile">
-                {% if session.get("id_usuario") %}
-                <a class="login" href="{{ url_for('usuario.logout') }}">
-                    Sair
-                </a>
-                {% else %}
-                <a class="login" href="{{ url_for('usuario.login_get') }}">
-                    Cadastre-se / Login
-                </a>
-                {% endif %}
-            </div>
-        </aside>
+            <!-- MENU -->
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" onclick="carregarAnimes(null)">
+                            <span class="icon">🏠</span> Painel
+                        </a>
+                    </li>
 
-        <!-- CONTEÚDO -->
-        <main class="main-content">
-            <section class="dashboard-container">
+                    <li>
+                        <a href="#" onclick="carregarAnimes('assistindo')">
+                            <span class="icon">🎬</span> Assistindo
+                        </a>
+                    </li>
 
-                <!-- TOPO -->
-                <div class="top-area">
-                    <h2>
-                        {% if session.get("perfil") == "admin" %}
+                    <li>
+                        <a href="#" onclick="carregarAnimes('concluidos')">
+                            <span class="icon">✅</span> Concluídos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="carregarAnimes('favoritos')">
+                            <span class="icon">⭐</span> Favoritos
+                        </a>
+                    </li>
+
+                    {% if session.get("perfil") == "admin" %}
+                    <li>
+                        <a href="{{ url_for('usuario.buscar_usuarios') }}">
+                            <span class="icon">👤</span> Usuários
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        <!-- LOGIN / LOGOUT -->
+        <div class="profile">
+            {% if session.get("id_usuario") %}
+                <a class="login" href="{{ url_for('usuario.logout') }}">Sair</a>
+            {% else %}
+                <a class="login" href="{{ url_for('usuario.login_get') }}">Cadastre-se / Login</a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+        <section class="dashboard-container">
+
+            <!-- TOPO -->
+            <div class="top-area">
+                <h2>
+                    {% if session.get("perfil") == "admin" %}
                         Olá, administrador!
-                        {% elif session.get("nome") %}
+                    {% elif session.get("nome") %}
                         Olá, {{ session["nome"] }}, seja bem-vindo!
-                        {% else %}
+                    {% else %}
                         Olá, visitante!
-                        {% endif %}
-                    </h2>
+                    {% endif %}
+                </h2>
 
-                    <input type="text" placeholder="Procure seu anime favorito">
+                <!--<input type="text" placeholder="Procure seu anime favorito"> -->
+            </div>
+
+            <!-- CARDS -->
+            <div class="anime-cards" id="anime-cards"></div>
+
+            <!-- BOTÃO + -->
+            <div class="add-anime" onclick="abrirModalAnime()">+</div>
+
+            <!-- MODAL -->
+            <div class="modal-anime" id="modalAnime">
+                <div class="modal-box">
+
+                    <button type="button" class="close-modal" onclick="fecharModalAnime()">✕</button>
+
+                    <form id="formAnime">
+
+                        <!-- ESQUERDA -->
+                        <div class="modal-left">
+                            <label class="upload-box">
+                                <input type="file" id="inputCapa" accept="image/*">
+
+                                <img id="previewCapa" style="display:none;" />
+
+                                <span id="textoUpload">
+                                    Carregue a capa<br>do anime
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- DIREITA -->
+                        <div class="modal-right">
+                            <label>Nome:</label>
+                            <input type="text" id="nome" required>
+
+                            <label>Descrição:</label>
+                            <textarea id="descricao"></textarea>
+
+                            <label>Status:</label>
+                            <select id="status">
+                                <option value="assistindo">Assistindo</option>
+                                <option value="favoritos">Favoritos</option>
+                                <option value="concluidos">Concluídos</option>
+                            </select>
+
+                            <label>Episódios assistidos:</label>
+                            <input type="number" id="eps_assistidos" value="0">
+
+                            <label>Total de episódios:</label>
+                            <input type="number" id="total_eps" value="0">
+
+                            <button type="submit" class="save-btn">Salvar</button>
+                        </div>
+
+                    </form>
+
                 </div>
+            </div>
 
-                <!-- CARDS DINÂMICOS -->
-                <div class="anime-cards" id="anime-cards">
+        </section>
+    </main>
 
-                    <div class="anime-cards" id="assistindo-cards"></div>
+</div>
 
-                    <div class="anime-cards" id="concluidos-cards"></div>
+<footer class="footer">
+    AnimeList — 2026 | Todos os direitos reservados
+</footer>
 
+<!-- JS -->
+<script src="{{ url_for('static', filename='js/animes.js') }}"></script>
 
-                    <div class="anime-cards" id="favoritos-cards"></div>
-
-                    <!-- Animes carregados via JS -->
-                </div>
-                <!-- BOTÃO + -->
-                <div class="add-anime" onclick="abrirModalAnime()">+</div>
-
-                <!-- MODAL -->
-                <div class="modal-anime" id="modalAnime">
-                    <div class="modal-box">
-
-                        <!-- BOTÃO VOLTAR / FECHAR -->
-                        <button type="button" class="close-modal" onclick="fecharModalAnime()">✕</button>
-
-                        <form id="formAnime">
-
-                            <!-- LADO ESQUERDO -->
-                            <div class="modal-left">
-                                <label class="upload-box">
-                                    <input type="file" id="inputCapa" accept="image/*">
-
-                                    <img id="previewCapa" style="display:none;" />
-
-                                    <span id="textoUpload">
-                                        Carregue a capa<br>do anime
-                                    </span>
-                                </label>
-
-                            </div>
-
-                            <!-- LADO DIREITO -->
-                            <div class="modal-right">
-                                <label>Nome:</label>
-                                <input type="text" id="nome" placeholder="Nome do anime" required>
-
-                                <label>Descrição:</label>
-                                <textarea id="descricao" placeholder="Descrição do anime"></textarea>
-
-                                <label>Status:</label>
-                                <select id="status">
-                                    <option value="assistindo">Assistindo</option>
-                                    <option value="favoritos">Favoritos</option>
-                                    <option value="concluidos">Concluídos</option>
-                                </select>
-
-                                <label>Episódios assistidos:</label>
-                                <input type="number" id="eps_assistidos" placeholder="0">
-
-                                <label>Total de episódios:</label>
-                                <input type="number" id="total_eps" placeholder="0">
-
-                                <button type="submit" class="save-btn">Salvar</button>
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-
-
-            </section>
-
-        </main>
-
-
-    </div>
-
-    <footer class="footer">
-        AnimeList — 2026 | Todos os direitos reservados
-    </footer>
-
-    <!-- JS DE ANIMES -->
-    <script src="{{ url_for('static', filename='animes.js') }}"></script>
 </body>
-
 </html>

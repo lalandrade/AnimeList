@@ -1,11 +1,23 @@
-from model.usuario import Usuario
-from repository.usuario_repository import UsuarioRepository
+import uuid
 import bcrypt
+import mysql.connector
+from repository.usuario_repository import UsuarioRepository
+from model.usuario import Usuario
 
 class UsuarioService:
 
     @staticmethod
     def cadastrar(dados):
+        # 🔥 GERA UUID
+        dados["id"] = str(uuid.uuid4())
+
+        # 🔐 hash da senha
+        senha_hash = bcrypt.hashpw(
+            dados["senha"].encode("utf-8"),
+            bcrypt.gensalt()
+        )
+        dados["senha"] = senha_hash.decode("utf-8")
+
         usuario = Usuario(**dados)
         return UsuarioRepository.adicionar(usuario)
 
@@ -21,19 +33,11 @@ class UsuarioService:
 
     @staticmethod
     def atualizar(usuario_edit):
-        dados_permitidos = {
-        "id": usuario_edit.get("id"),
-        "nome": usuario_edit.get("nome"),
-        "email": usuario_edit.get("email"),
-        "idade": usuario_edit.get("idade")
-    }
+        dados_permitidos = {k: v for k, v in usuario_edit.items() if v is not None}
         return UsuarioRepository.atualizar(dados_permitidos)
 
-
-    
     @staticmethod
     def deletar(id):
-        
         return UsuarioRepository.deletar(id)
 
     @staticmethod

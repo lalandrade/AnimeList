@@ -2,14 +2,15 @@ import uuid
 import bcrypt
 
 class Usuario:
-    def __init__(self, nome, cpf, email, idade, senha, perfil, id=None):
-        self.id = id or str(uuid.uuid4())
+    def __init__(self, id, nome, cpf, email, idade, senha, perfil="user"):
+        self.id = id
         self.nome = nome
         self.cpf = cpf
         self.email = email
         self.idade = idade
-        self.senha = bcrypt.hashpw(senha.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        self.senha = senha  # ❗ NÃO faz hash aqui
         self.perfil = perfil
+
 
 
     def to_dict(self):
