@@ -1,26 +1,29 @@
 from db import get_connection
+from psycopg2.extras import RealDictCursor
+
 
 class AnimeRepository:
 
     @staticmethod
     def listar(usuario_id, status=None):
         conn = get_connection()
-        cur = conn.cursor(dictionary=True)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
 
         if status:
             cur.execute("""
                 SELECT * FROM animes
-                WHERE usuario_id=%s AND status=%s
+                WHERE usuario_id = %s AND status = %s
                 ORDER BY id DESC
             """, (usuario_id, status))
         else:
             cur.execute("""
                 SELECT * FROM animes
-                WHERE usuario_id=%s
+                WHERE usuario_id = %s
                 ORDER BY id DESC
             """, (usuario_id,))
 
         data = cur.fetchall()
+        cur.close()
         conn.close()
         return data
 
@@ -28,10 +31,11 @@ class AnimeRepository:
     def adicionar(dados):
         conn = get_connection()
         cur = conn.cursor()
+
         cur.execute("""
             INSERT INTO animes
             (usuario_id, nome, descricao, status, eps_assistidos, total_eps, imagem)
-            VALUES (%s,%s,%s,%s,%s,%s,%s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (
             dados.get("usuario_id"),
             dados.get("nome"),
@@ -41,15 +45,20 @@ class AnimeRepository:
             dados.get("total_eps", 0),
             dados.get("imagem")
         ))
+
         conn.commit()
+        cur.close()
         conn.close()
 
     @staticmethod
     def buscar_por_id(id):
         conn = get_connection()
-        cur = conn.cursor(dictionary=True)
-        cur.execute("SELECT * FROM animes WHERE id=%s", (id,))
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        cur.execute("SELECT * FROM animes WHERE id = %s", (id,))
         data = cur.fetchone()
+
+        cur.close()
         conn.close()
         return data
 
@@ -57,15 +66,16 @@ class AnimeRepository:
     def atualizar(id, dados):
         conn = get_connection()
         cur = conn.cursor()
+
         cur.execute("""
             UPDATE animes SET
-                nome=%s,
-                descricao=%s,
-                status=%s,
-                eps_assistidos=%s,
-                total_eps=%s,
-                imagem=%s
-            WHERE id=%s
+                nome = %s,
+                descricao = %s,
+                status = %s,
+                eps_assistidos = %s,
+                total_eps = %s,
+                imagem = %s
+            WHERE id = %s
         """, (
             dados.get("nome"),
             dados.get("descricao"),
@@ -75,13 +85,18 @@ class AnimeRepository:
             dados.get("imagem"),
             id
         ))
+
         conn.commit()
+        cur.close()
         conn.close()
 
     @staticmethod
     def deletar(id):
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("DELETE FROM animes WHERE id=%s", (id,))
+
+        cur.execute("DELETE FROM animes WHERE id = %s", (id,))
         conn.commit()
+
+        cur.close()
         conn.close()

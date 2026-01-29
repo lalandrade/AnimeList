@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Usuário</title>
@@ -8,43 +9,47 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro-usuario.css') }}">
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Cadastrar Usuário</h1>
+        <h1>Cadastrar Usuário</h1>
 
-    <!-- FORMULÁRIO -->
-    <form action="{{ url_for('usuario.cadastro_post') }}" method="POST">
+        <!-- FORMULÁRIO -->
+        <form action="{{ url_for('usuario.cadastro_post') }}" method="POST">
 
-        <label>Nome:</label>
-        <input type="text" name="nome" required>
+            <label>Nome:</label>
+            <input type="text" name="nome" required>
 
-        <label>CPF:</label>
-        <input type="text" name="cpf" maxlength="11" required>
+            <label>CPF:</label>
+            <input type="text" id="cpf" name="cpf" maxlength="11"
+                oninput="this.value = this.value.replace(/\D/g, '')" required />
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
 
-        <label>Idade:</label>
-        <input type="number" name="idade" required>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-        <label>Senha:</label>
-        <input type="password" name="senha" required>
+            <label>Idade:</label>
+            <input type="number" name="idade" required>
 
-        <label>Perfil:</label>
-        <input type="text" name="perfil" placeholder="" required>
+            <label>Senha:</label>
+            <input type="password" name="senha" required>
 
-        <button type="submit">Cadastrar</button>
+            <label>Perfil:</label>
+            <input type="text" name="perfil" placeholder="" required>
 
-    </form>
+            <button type="submit">Cadastrar</button>
 
-    <p>
-        Já tem conta?
-        <a href="{{ url_for('usuario.login_get') }}">Fazer login</a>
-    </p>
+        </form>
 
-</div>
+        <p>
+            Já tem conta?
+            <a href="{{ url_for('usuario.login_get') }}">Fazer login</a>
+        </p>
+
+    </div>
 
 </body>
+
 </html>

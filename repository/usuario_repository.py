@@ -1,96 +1,94 @@
-import mysql.connector
-
-
-def get_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="admin",
-        database="crud_db"
-    )
-
+from db import get_connection
+from psycopg2.extras import RealDictCursor
 
 class UsuarioRepository:
 
     @staticmethod
-    def listar():
+    def adicionar(dados):
         conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuarios")
-        usuarios = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return usuarios
+        cur = conn.cursor()
 
-    @staticmethod
-    def adicionar(usuario):
-        conn = get_connection()
-        cursor = conn.cursor()
         try:
-            cursor.execute("""
+            cur.execute("""
                 INSERT INTO usuarios (id, nome, cpf, email, idade, senha, perfil)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (
-                usuario.id,
-                usuario.nome,
-                usuario.cpf,
-                usuario.email,
-                usuario.idade,
-                usuario.senha,
-                usuario.perfil
+                dados["id"],
+                dados["nome"],
+                dados["cpf"],
+                dados["email"],
+                dados["idade"],
+                dados["senha"],
+                dados["perfil"]
             ))
+
             conn.commit()
             return True
+
         except Exception as e:
+            conn.rollback()
             print("Erro ao adicionar usuário:", e)
             return False
+
         finally:
-            cursor.close()
+            cur.close()
             conn.close()
 
     @staticmethod
     def buscar_por_email(email):
         conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
-        usuario = cursor.fetchone()
-        cursor.close()
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        cur.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+        usuario = cur.fetchone()
+
+        cur.close()
         conn.close()
         return usuario
 
     @staticmethod
-    def deletar(id):
+    def listar():
         conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM usuarios WHERE id = %s", (id,))
-        conn.commit()
-        deleted = cursor.rowcount
-        cursor.close()
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        cur.execute("SELECT id, nome, email, idade, perfil FROM usuarios")
+        usuarios = cur.fetchall()
+
+        cur.close()
         conn.close()
-        return deleted > 0
+        return usuarios
 
     @staticmethod
-    def atualizar(usuario_edit):
+    def atualizar(dados):
         conn = get_connection()
-        cursor = conn.cursor()
-        try:
-            cursor.execute("""
-                UPDATE usuarios
-                SET nome = %s,
-                    email = %s,
-                    idade = %s
-                WHERE id = %s
-            """, (
-                usuario_edit["nome"],
-                usuario_edit["email"],
-                usuario_edit["idade"],
-                usuario_edit["id"]
-            ))
-            conn.commit()
-            return cursor.rowcount > 0
-        except Exception as e:
-            print("Erro ao atualizar usuário:", e)
-            return False
-        finally:
-            cursor.close()
-            conn.close()
+        cur = conn.cursor()
+
+        cur.execute("""
+            UPDATE usuarios
+            SET nome = %s, email = %s, idade = %s, perfil = %s
+            WHERE id = %s
+        """, (
+            dados["nome"],
+            dados["email"],
+            dados["idade"],
+            dados["perfil"],
+            dados["id"]
+        ))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+
+    @staticmethod
+    def deletar(id):
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("DELETE FROM usuarios WHERE id = %s", (id,))
+        deletado = cur.rowcount > 0
+
+        conn.commit()
+        cur.close()
+        conn.close()
+        return deletado

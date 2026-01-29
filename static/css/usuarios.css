@@ -1,74 +1,96 @@
 /* Estilo geral da página */
 body {
-    font-family: Arial, sans-serif;       /* Define a fonte padrão como Arial (ou similar sans-serif) */
-    background-color: #f4f6f8;            /* Cor de fundo clara para a página */
-    margin: 0;                            /* Remove as margens padrão do navegador */
-    padding: 20px;                        /* Adiciona espaçamento interno de 20px em toda a página */
+    font-family: Arial, sans-serif;
+    background-color: #020617;            /* Fundo dark */
+    margin: 0;
+    padding: 20px;
+    color: #e5e7eb;                       /* Texto claro */
 }
 
 /* Área central que envolve o conteúdo */
 .container {
-    max-width: 800px;                     /* Define largura máxima de 800px */
-    margin: 0 auto;                       /* Centraliza horizontalmente (auto nas laterais) */
-    background-color: #fff;               /* Fundo branco para destacar o conteúdo */
-    padding: 30px;                         /* Espaçamento interno (padding) */
-    border-radius: 10px;                   /* Cantos arredondados */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para dar efeito de elevação */
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #0f172a;            /* Card dark */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.12);
 }
 
 /* Título principal */
 h1 {
-    text-align: center;                   /* Centraliza o texto */
-    color: #333;                           /* Cor do texto em tom cinza escuro */
-    margin-bottom: 30px;                   /* Espaço abaixo do título */
+    text-align: center;
+    color: #f9fafb;
+    margin-bottom: 30px;
 }
 
 /* Tabela */
 table {
-    width: 100%;                           /* Tabela ocupa toda a largura disponível */
-    border-collapse: collapse;             /* Remove espaços entre bordas das células */
+    width: 100%;
+    border-collapse: collapse;
 }
 
 /* Cabeçalhos e células da tabela */
 th,
 td {
-    padding: 12px 15px;                    /* Espaçamento interno nas células */
-    text-align: left;                      /* Alinhamento do texto à esquerda */
-    border-bottom: 1px solid #ddd;         /* Linha fina separando as linhas da tabela */
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 /* Cabeçalhos da tabela */
 th {
-    background-color: #007BFF;             /* Fundo azul */
-    color: white;                          /* Texto branco */
+    background-color: #1e293b;             /* Azul escuro */
+    color: #e5e7eb;
 }
 
 /* Linhas pares da tabela (efeito "zebrado") */
 tr:nth-child(even) {
-    background-color: #f2f2f2;             /* Cor de fundo levemente cinza */
+    background-color: #020617;
 }
 
 /* Efeito ao passar o mouse sobre uma linha */
 tr:hover {
-    background-color: #e0e0e0;             /* Cor de destaque ao passar o mouse */
+    background-color: rgba(59, 130, 246, 0.12);
 }
 
+/* Cabeçalho de ações */
 .th-update {
-    background-color: #616b76;
+    background-color: #334155;
 }
 
+/* Inputs */
 input {
-    width: 125px; /* Define largura fixa dos campos do formulário */
+    width: 125px;
+    padding: 6px 8px;
+    background-color: #020617;
+    color: #f9fafb;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 6px;
 }
 
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+/* Botão atualizar */
 .button-update {
-    background-color: #007BFF; /* Azul para destacar botão de atualização */
-    color: #fff;               /* Texto branco */
-    border: none;              /* Remove bordas */
-    border-radius: 6px;        /* Cantos arredondados */
-    padding: 8px 16px;         /* Espaçamento interno */
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;           /* Cursor de mãozinha */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Efeito de sombra */
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.45);
+    transition: 0.25s;
+}
+
+.button-update:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.6);
 }
