@@ -7,8 +7,10 @@ class UsuarioService:
 
     @staticmethod
     def cadastrar(dados):
+        # 🔥 GERA UUID
         dados["id"] = str(uuid.uuid4())
 
+        # 🔐 hash da senha
         senha_hash = bcrypt.hashpw(
             dados["senha"].encode("utf-8"),
             bcrypt.gensalt()
