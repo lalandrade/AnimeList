@@ -1,49 +1,42 @@
-import bcrypt
 import uuid
+import bcrypt
 from repository.usuario_repository import UsuarioRepository
+from model.usuario import Usuario
 
 class UsuarioService:
 
     @staticmethod
     def cadastrar(dados):
-        try:
-            dados["id"] = str(uuid.uuid4())
+        dados["id"] = str(uuid.uuid4())
 
-            senha_hash = bcrypt.hashpw(
-                dados["senha"].encode("utf-8"),
-                bcrypt.gensalt()
-            ).decode("utf-8")
+        senha_hash = bcrypt.hashpw(
+            dados["senha"].encode("utf-8"),
+            bcrypt.gensalt()
+        )
+        dados["senha"] = senha_hash.decode("utf-8")
 
-            dados["senha"] = senha_hash
-
-            return UsuarioRepository.adicionar(dados)
-
-        except Exception as e:
-            print("Erro no service:", e)
-            return False
+        usuario = Usuario(**dados)
+        return UsuarioRepository.adicionar(usuario)
 
     @staticmethod
     def autenticar(email, senha):
         usuario = UsuarioRepository.buscar_por_email(email)
-        if not usuario:
-            return None
-
-        if bcrypt.checkpw(
+        if usuario and bcrypt.checkpw(
             senha.encode("utf-8"),
             usuario["senha"].encode("utf-8")
         ):
             return usuario
-
         return None
 
     @staticmethod
-    def listar():
-        return UsuarioRepository.listar()
-
-    @staticmethod
-    def atualizar(dados):
-        return UsuarioRepository.atualizar(dados)
+    def atualizar(usuario_edit):
+        dados_permitidos = {k: v for k, v in usuario_edit.items() if v is not None}
+        return UsuarioRepository.atualizar(dados_permitidos)
 
     @staticmethod
     def deletar(id):
         return UsuarioRepository.deletar(id)
+
+    @staticmethod
+    def listar():
+        return UsuarioRepository.listar()
