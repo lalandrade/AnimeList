@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash
 from service.usuario_service import UsuarioService
 
 
@@ -10,7 +10,6 @@ def painel():
     if "id_usuario" not in session:
         return redirect(url_for("usuario.login_get"))
     return render_template("painel.html")
-
 
 
 # -------- LOGIN --------
@@ -26,13 +25,14 @@ def login_post():
 
     usuario = UsuarioService.autenticar(email, senha)
     if not usuario:
-        return render_template("login.html", erro="Email ou senha inválidos")
-
+        flash("Email ou senha incorretos!", "error")
+        return redirect(url_for("usuario.login_get"))
 
     session["id_usuario"] = usuario["id"]
     session["nome"] = usuario["nome"]
     session["perfil"] = usuario["perfil"]
 
+    flash(f"Bem-vindo(a), {usuario['nome']}!", "success")
     return redirect(url_for("usuario.painel"))
 
 
@@ -40,6 +40,7 @@ def login_post():
 @usuario_bp.route("/logout")
 def logout():
     session.clear()
+    flash("Você saiu da sua conta.", "info")
     return redirect(url_for("usuario.login_get"))
 
 
@@ -62,9 +63,11 @@ def cadastro_post():
 
     status = UsuarioService.cadastrar(dados)
     if status:
+        flash("Cadastro realizado com sucesso! Faça login.", "success")
         return redirect(url_for("usuario.login_get"))
 
-    return "Erro ao cadastrar usuário", 400
+    flash("Erro ao cadastrar usuário. Tente novamente.", "error")
+    return redirect(url_for("usuario.cadastro_get"))
 
 
 # -------- LISTANIME --------
@@ -132,10 +135,11 @@ def atualizar_usuario(id):
         return jsonify({"mensagem": "Usuário atualizado com sucesso"}), 200
 
     return jsonify({"erro": "Erro ao atualizar"}), 400
+
+
 @usuario_bp.route("/admin")
 def admin_area():
     if session.get("perfil") != "admin":
         return "Acesso negado", 403
 
     return "Área do administrador"
-

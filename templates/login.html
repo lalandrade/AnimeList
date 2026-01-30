@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Login | AnimeList</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<!-- CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-
-
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
 
-<!-- BOTÃO VOLTAR -->
-
-<!-- <a href="{{ url_for('usuario.painel') }}" class="btn-voltar">
-    ← Voltar para o painel
-</a>
--->
-
 <div class="container">
-
 
 <h1>Login</h1>
 <p>Acesse sua conta no AnimeList</p>
+
+<!-- Mensagens Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
 <form action="{{ url_for('usuario.login_post') }}" method="POST">
 

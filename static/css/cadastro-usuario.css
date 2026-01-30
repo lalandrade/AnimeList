@@ -145,3 +145,84 @@ body {
 .container a:hover {
     text-decoration: underline;
 }
+
+/* ======================
+   MENSAGENS DE ALERTA
+====================== */
+.alert {
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    animation: slideDown 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+.alert-success {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #86efac;
+}
+
+.alert-info {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+}
+
+/* MENSAGEM DE ERRO DE VALIDAÇÃO */
+.erro-validacao {
+    display: block;
+    color: #f87171;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* INPUT COM ERRO */
+.container input.invalido {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* SELECT (para o campo perfil) */
+.container select {
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    background: rgba(17, 24, 39, 0.9);
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.container select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.35);
+    background: #020617;
+}
+
+.container select option {
+    background: #1e293b;
+    color: #ffffff;
+}
