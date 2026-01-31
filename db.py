@@ -3,7 +3,10 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 
 def get_connection():
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise RuntimeError("DATABASE_URL não configurada")
     return psycopg2.connect(
-        os.environ.get("DATABASE_URL"),
+        database_url,
         cursor_factory=RealDictCursor
     )

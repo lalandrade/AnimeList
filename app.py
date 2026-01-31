@@ -9,7 +9,8 @@ if os.getenv("FLASK_ENV") != "production":
     load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
+
 
 app.register_blueprint(usuario_bp)
 app.register_blueprint(anime_bp)
