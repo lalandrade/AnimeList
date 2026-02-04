@@ -334,13 +334,13 @@ Relacionamento: 1 USUÁRIO possui N ANIMES (1:N)
 
 ```sql
 CREATE TABLE usuarios (
-    id VARCHAR(36) PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    idade INT NOT NULL,
-    senha VARCHAR(255) NOT NULL,
-    perfil VARCHAR(10) DEFAULT 'user' CHECK (perfil IN ('user', 'admin'))
+    id CHARACTER VARYING PRIMARY KEY,
+    nome CHARACTER VARYING NOT NULL,
+    cpf CHARACTER VARYING NOT NULL,
+    email CHARACTER VARYING NOT NULL,
+    idade INTEGER NOT NULL,
+    senha CHARACTER VARYING NOT NULL,
+    perfil CHARACTER VARYING NOT NULL
 );
 ```
 
@@ -348,17 +348,16 @@ CREATE TABLE usuarios (
 
 ```sql
 CREATE TABLE animes (
-    id SERIAL PRIMARY KEY,
-    usuario_id VARCHAR(36) NOT NULL,
-    nome VARCHAR(200) NOT NULL,
+    id INTEGER PRIMARY KEY,
+    usuario_id CHARACTER VARYING NOT NULL,
+    nome CHARACTER VARYING(200) NOT NULL,
+    imagem TEXT,
     descricao TEXT,
-    status VARCHAR(20) DEFAULT 'assistindo' CHECK (status IN ('assistindo', 'concluido', 'favorito')),
-    eps_assistidos INT DEFAULT 0,
-    total_eps INT DEFAULT 0,
-    imagem VARCHAR(500),
+    status CHARACTER VARYING(20) DEFAULT 'assistindo' CHECK (status IN ('assistindo', 'concluido', 'favorito')),
+    eps_assistidos INTEGER DEFAULT 0,
+    total_eps INTEGER DEFAULT 0,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
-```
 
 ### Índices para Performance
 
