@@ -1214,21 +1214,6 @@ Resultado: Sprint 100% completa! 🎉
 
 ---
 
-## 🎓 PARA A APRESENTAÇÃO
-
-### Quando falar de Metodologia Ágil:
-
-> "Utilizei a metodologia **Scrum** durante o desenvolvimento. Dividi o projeto em **4 sprints** de 1 semana cada. Na Sprint 1, implementei autenticação e base do projeto. Na Sprint 2, desenvolvi todo o CRUD de animes. Na Sprint 3, criei o frontend e melhorias. Na Sprint 4, fiz deploy e documentação. Usei **Daily Scrum** para acompanhar progresso diário, **Sprint Review** para demonstrar funcionalidades, e **Sprint Retrospective** para melhorias contínuas. Isso permitiu entregas incrementais e ajustes rápidos."
-
-### Se perguntarem sobre Backlog:
-
-> "Mantive um **Product Backlog** com todas as funcionalidades priorizadas. A cada sprint, selecionava itens para o **Sprint Backlog**. Usei **Kanban board** (To Do, In Progress, Testing, Done) para visualizar o progresso. Ao final de cada sprint, tinha funcionalidades prontas e testadas."
-
-### Se perguntarem sobre solo vs equipe:
-
-> "Embora seja um projeto individual, apliquei os conceitos do Scrum. Fiz **Daily Scrum** comigo mesmo, respondendo as 3 perguntas diárias. A metodologia ágil ajudou a manter foco e organização, mesmo trabalhando sozinho."
-
----
 
 ## ✅ EVIDÊNCIAS DE METODOLOGIA ÁGIL
 
