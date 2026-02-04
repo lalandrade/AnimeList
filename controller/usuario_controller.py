@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, flash
 from service.usuario_service import UsuarioService
-from api_utils import (
+from utils.api_utils import (
     api_error_handler,
     requer_autenticacao,
     requer_admin,

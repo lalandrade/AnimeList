@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for, flash
 from service.anime_service import AnimeService
-from api_utils import (
+from utils.api_utils import (
     api_error_handler,
     requer_autenticacao,
     resposta_padrao

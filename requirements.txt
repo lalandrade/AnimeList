@@ -8,3 +8,27 @@ psycopg2-binary
 
 bcrypt==5.0.0
 PyJWT==2.10.1
+
+# Dependências para Testes Automatizados
+
+# Framework de testes
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-flask==1.3.0
+
+# Cobertura de código
+coverage==7.3.2
+
+# Mocking
+pytest-mock==3.12.0
+
+# Testes assíncronos (se necessário)
+pytest-asyncio==0.21.1
+
+# Fixtures adicionais
+pytest-factoryboy==2.6.0
+
+# Relatórios bonitos
+pytest-html==4.1.1
+
+
